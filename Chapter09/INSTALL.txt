@@ -1,0 +1,114 @@
+follow below steps to install and configure Java, Hadoop and Sqoop on the LINUX server.
+
+Step 1 - Download java from https://www.java.com/en/download/help/linux_x64_install.xml location
+
+Step 2 - unzip java and move to /usr/local/java location.
+
+Step 3 - Setup environment variables for java run time
+export JAVA_HOME=/usr/local/java
+export PATH=$PATH:$JAVA_HOME/bin
+
+
+Installing and Configuring Hadoop on the server
+Step 4 -  Download Hadoop from below URL
+wget http://www-us.apache.org/dist/hadoop/common/hadoop-2.8.1/hadoop-2.8.1.tar.gz
+
+Step 5 - extract the Hadoop tar and rename it
+cd /usr/local
+tar -xvz http://www-us.apache.org/dist/hadoop/common/hadoop-2.8.1/hadoop-2.8.1.tar.gz
+mv hadoop-2.8.1 hadoop
+
+Step 6 - Set variables for the Hadoop
+export HADOOP_HOME=/usr/local/hadoop
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export YARN_HOME=$HADOOP_HOME
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
+
+Step 7 - Set Java Path inside hadoop's configuration
+cd $HADOOP_HOME/etc/hadoop
+export JAVA_HOME=/usr/local/java
+
+Step 8 - Go to hadoop's configuration directory 
+cd hadoop/etc/hadoop/
+
+Step 9 - vim core-site.xml and copy below configuration between configuration tag
+<property>
+   <name>fs.default.name</name>
+   <value>hdfs://localhost:9000 </value>
+</property>
+
+Step 10 - vim hdfs-site.xml and copy below property between the configuration tag
+<property>
+      <name>dfs.replication</name>
+      <value>1</value>
+   </property>
+   
+   <property>
+      <name>dfs.name.dir</name>
+      <value>file:///home/hadoop/hadoopinfra/hdfs/namenode </value>
+   </property>
+   
+   <property>
+      <name>dfs.data.dir</name>
+      <value>file:///home/hadoop/hadoopinfra/hdfs/datanode </value>
+   </property>
+
+Step 11 - vim yarn-site.xml and copy below property between the configuration tag
+
+<configuration>
+   <property>
+      <name>yarn.nodemanager.aux-services</name>
+      <value>mapreduce_shuffle</value>
+   </property>
+</configuration>
+
+Step 12 - cp mapred-site.xml.template mapred-site.xml 
+vim mapred-site.xml and copy below property between the configuration tag
+    <property>
+      <name>mapreduce.framework.name</name>
+      <value>yarn</value>
+   </property>
+
+Step 13 - Start dfs service by running below command
+start-dfs.sh
+start-yarn.sh
+
+Step 14 - Access Hadoop's application UI using browser
+http://localhost:8088/cluster
+
+Step 15 - Download Sqoop using below url
+wget http://www-us.apache.org/dist/sqoop/1.4.6/sqoop-1.4.6.bin__hadoop-2.0.4-alpha.tar.gz
+
+Step 16 - extract tar file and move to sqoop directory
+tar -xvz sqoop-1.4.6.bin__hadoop-2.0.4-alpha.tar.gz
+mv sqoop-1.4.6.bin__hadoop-2.0.4-alpha to sqoop
+export SQOOP_HOME=/usr/local/sqoop 
+export PATH=$PATH:$SQOOP_HOME/bin
+cd $SQOOP_HOME/conf
+mv sqoop-env-template.sh sqoop-env.sh
+
+
+Step 17 - Export the Hadoop's configuration in Sqoop
+export HADOOP_COMMON_HOME=/usr/local/hadoop 
+export HADOOP_MAPRED_HOME=/usr/local/hadoop
+
+Step 18 - Download MySQL connector
+wget http://ftp.ntu.edu.tw/MySQL/Downloads/Connector-J/mysql-connector-java-5.1.19.zip
+unzip mysql-connector-java-5.1.19.zip
+
+Step 19 - copy the jar file from mysql connector's directory to sqoop
+cd mysql-connector-java-5.1.19
+mv mysql-connector-java-5.1.19-bin.jar /usr/local/sqoop/lib
+
+Now Sqoop is installed and service can be started
+
+cd $SQOOP_HOME/bin
+sqoop-version 
+
+Above command will give you current version of sqoop running
+
+
+
