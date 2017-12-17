@@ -40,5 +40,3 @@ Apache Sqoop 1.4.6
 
 * [Mastering phpMyAdmin for Effective MySQL Management ](https://www.packtpub.com/big-data-and-business-intelligence/mastering-phpmyadmin-effective-mysql-management?utm_source=github&utm_medium=repository&utm_campaign=9781904811039)
 
-### Suggestions and Feedback
-[Click here](https://docs.google.com/forms/d/e/1FAIpQLSe5qwunkGf6PUvzPirPDtuy1Du5Rlzew23UBp2S-P3wB-GcwQ/viewform) if you have any feedback or suggestions.
